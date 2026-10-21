@@ -25,3 +25,5 @@ Sau khi nạp, nối vào AP của bo và mở `http://192.168.4.1/wifi`. Chọn
 Đã kiểm tra trên YoloUNO: DHT20, HTTP điều khiển hai đèn, kết nối STA, semaphore, mạng không tồn tại quay về AP, quét danh sách và kết nối mạng được chọn từ trình duyệt. Chức năng CoreIOT/RPC, BOOT trên bản tuần 5 và máy khách truy cập trực tiếp AP còn cần kiểm tra bổ sung. Chưa có LCD nên chưa thực hiện bài hiển thị IP lên LCD.
 
 Các tệp cũ trong `src/` được giữ lại để tham khảo. Bộ lọc nguồn chỉ biên dịch `labs/week5/main.cpp`, tránh trùng `setup()` và máy chủ cũ cùng cổng 80.
+
+CoreIOT: nút LED dùng `getLedSwitchValue` để đọc trạng thái hiện tại và `setLedSwitchValue` với tham số boolean để bật/tắt. Bản chạy đã được kiểm tra gửi số đo DHT20 thật và nhận lệnh từ bảng điều khiển. Mã truy cập chỉ nhập lúc chạy, không đưa vào kho mã.

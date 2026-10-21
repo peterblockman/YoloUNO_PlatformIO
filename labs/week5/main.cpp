@@ -126,7 +126,14 @@ void callback(char *topic,byte *payload,unsigned length) {
  if(deserializeJson(d,payload,length)){logLine("RPC invalid JSON");return;}
  String path(topic),prefix="v1/devices/me/rpc/request/";
  if(!path.startsWith(prefix))return;
- String method=d["method"]|"";bool supported=method=="setLedSwitchValue"||method=="setLed1";
+ String method=d["method"]|"";
+ if(method=="getLedSwitchValue") {
+  xSemaphoreTake(dataLock,portMAX_DELAY);bool current=led1;xSemaphoreGive(dataLock);
+  String responseTopic=String("v1/devices/me/rpc/response/")+path.substring(prefix.length());
+  mqtt.publish(responseTopic.c_str(),current?"true":"false");
+  logLine("RPC getLedSwitchValue response=%s",current?"true":"false");return;
+ }
+ bool supported=method=="setLedSwitchValue"||method=="setLed1";
  if(supported && d["params"].is<bool>()) {
   bool on=d["params"].as<bool>();setLed(1,on,"CoreIOT_RPC");
   String response=String("{\"success\":true,\"ledState\":")+(on?"true":"false")+"}";
